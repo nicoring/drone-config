@@ -50,7 +50,7 @@ def valid_combination(num_edf, edf, esc, battery, specs):
             specs['max_payload'] >= min_accepted_payload and
             specs['min_fly_time'] >= min_accepted_fly_time)
 
-def combination_generator(edfs, escs, batteries, additional_weight=1000):
+def combinations(edfs, escs, batteries, additional_weight=1000):
     for edf in edfs:
         for esc in escs:
             for battery in battery_combinations(edf, batteries):
@@ -58,3 +58,4 @@ def combination_generator(edfs, escs, batteries, additional_weight=1000):
                     specs = drone_specs(num_edf, edf, esc, battery, additional_weight)
                     if valid_combination(num_edf, edf, esc, battery, specs):
                         yield edf, esc, battery, specs
+

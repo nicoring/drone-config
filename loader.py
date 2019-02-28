@@ -35,10 +35,6 @@ class SpreadsheetLoader(DataLoader):
 
     SPREADSHEET_ID = '1ifkWLrMZiCqrM0Jz0hgi4FTc7MfTREkx-mk4uzgsz7c'
 
-    def __init__(self):
-        self.service = self.build_service()
-        pass
-    
     def build_service(self):
         creds = None
         # The file token.pickle stores the user's access and refresh tokens, and is
@@ -63,7 +59,8 @@ class SpreadsheetLoader(DataLoader):
         return service
 
     def load_spreadsheet(self, name):
-        sheet = self.service.spreadsheets()
+        service = self.build_service()
+        sheet = service.spreadsheets()
         result = sheet.values().get(spreadsheetId=SpreadsheetLoader.SPREADSHEET_ID,
                                     range=name).execute()
         values = result.get('values', [])
