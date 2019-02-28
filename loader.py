@@ -33,7 +33,9 @@ class SpreadsheetLoader(DataLoader):
     # If modifying these scopes, delete the file token.pickle.
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
-    SPREADSHEET_ID = '1ifkWLrMZiCqrM0Jz0hgi4FTc7MfTREkx-mk4uzgsz7c'
+    def __init__(self):
+        with open('spreadsheet_id', 'r') as f:
+            self.spreadsheet_id = f.read()
 
     def build_service(self):
         creds = None
@@ -61,7 +63,7 @@ class SpreadsheetLoader(DataLoader):
     def load_spreadsheet(self, name):
         service = self.build_service()
         sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=SpreadsheetLoader.SPREADSHEET_ID,
+        result = sheet.values().get(spreadsheetId=self.spreadsheet_id,
                                     range=name).execute()
         values = result.get('values', [])
         columns = values[0]
